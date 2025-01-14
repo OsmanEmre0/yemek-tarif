@@ -132,7 +132,7 @@ function App() {
     return `${scaledTime} dakika`;
   };
 
-  const handleServingsChange = (change: number) => {
+  const adjustServings = (change: number) => {
     const newServings = Math.max(1, Math.min(20, currentServings + change));
     setCurrentServings(newServings);
   };
@@ -169,9 +169,11 @@ function App() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-amber-50 via-teal-50 to-cyan-100">
       <header className="bg-white/80 backdrop-blur-sm shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8 flex items-center">
-          <ChefHat className="h-8 w-8 text-red-600 mr-3" />
-          <h1 className="text-3xl font-bold text-slate-800">Lezzetli Tarifler</h1>
+        <div className="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="flex items-center">
+            <ChefHat className="h-8 w-8 text-red-600 mr-3" />
+            <h1 className="text-2xl sm:text-3xl font-bold text-slate-800">Lezzetli Tarifler</h1>
+          </div>
         </div>
       </header>
 
@@ -205,17 +207,17 @@ function App() {
 
         {recipe && (
           <div className="max-w-4xl mx-auto bg-white/80 backdrop-blur-sm rounded-xl shadow-md overflow-hidden">
-            <div className="p-8">
-              <div className="flex justify-between items-start mb-6">
-                <div>
-                  <h2 className="text-3xl font-bold text-slate-800 mb-4">{recipe.name}</h2>
+            <div className="p-4 sm:p-8">
+              <div className="flex flex-col sm:flex-row justify-between items-start mb-6">
+                <div className="w-full sm:w-auto mb-4 sm:mb-0">
+                  <h2 className="text-2xl sm:text-3xl font-bold text-slate-800 mb-4">{recipe.name}</h2>
                   <p className="text-slate-600">{recipe.description}</p>
                 </div>
-                <div className="bg-teal-50/80 backdrop-blur-sm p-4 rounded-lg">
+                <div className="bg-teal-50/80 backdrop-blur-sm p-4 rounded-lg w-full sm:w-auto">
                   <p className="text-sm font-medium text-slate-700 mb-2 text-center">Porsiyon Sayısı</p>
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center justify-center sm:justify-start gap-3">
                     <button
-                      onClick={() => handleServingsChange(-1)}
+                      onClick={() => adjustServings(-1)}
                       className="w-8 h-8 flex items-center justify-center rounded-full bg-teal-100 hover:bg-teal-200 transition-colors"
                       type="button"
                     >
@@ -225,7 +227,7 @@ function App() {
                       {currentServings}
                     </span>
                     <button
-                      onClick={() => handleServingsChange(1)}
+                      onClick={() => adjustServings(1)}
                       className="w-8 h-8 flex items-center justify-center rounded-full bg-teal-100 hover:bg-teal-200 transition-colors"
                       type="button"
                     >
@@ -235,7 +237,7 @@ function App() {
                 </div>
               </div>
 
-              <div className="flex gap-6 mb-8">
+              <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 mb-8">
                 <div className="flex items-center">
                   <Clock className="h-5 w-5 text-cyan-600 mr-2" />
                   <span className="text-sm text-slate-600">
@@ -265,8 +267,8 @@ function App() {
                     </div>
                   </div>
                   
-                  <div className="p-6">
-                    <div className="grid grid-cols-2 gap-4">
+                  <div className="p-4 sm:p-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       {recipe.ingredients.map((ingredient, index) => {
                         const ingredientName = extractIngredientName(ingredient);
                         const scaledIngredient = recipe.baseServings === currentServings 
@@ -304,7 +306,7 @@ function App() {
                   </button>
                   
                   {showInstructions && (
-                    <div className="p-6">
+                    <div className="p-4 sm:p-6">
                       <div className="space-y-6">
                         {recipe.instructions.map((step, index) => {
                           if (step.endsWith(':')) {
@@ -346,7 +348,7 @@ function App() {
                     </button>
                     
                     {showTips && (
-                      <div className="p-6">
+                      <div className="p-4 sm:p-6">
                         <ul className="space-y-4">
                           {recipe.tips.map((tip, index) => (
                             <li key={index} className="flex items-start p-4 bg-gradient-to-r from-amber-50 to-yellow-50 rounded-lg hover:from-amber-100 hover:to-yellow-100 transition-colors">
@@ -391,8 +393,9 @@ function App() {
                             </svg>
                           </button>
                         </div>
+
                         <div className="overflow-y-auto max-h-[calc(85vh-4rem)]">
-                          <div className="grid gap-2 p-6">
+                          <div className="grid gap-2 p-4 sm:p-6">
                             {recipe.ingredients.map((ingredient, index) => {
                               const ingredientName = extractIngredientName(ingredient);
                               
@@ -403,7 +406,7 @@ function App() {
                                       <span className="w-2 h-2 bg-red-500 rounded-full"></span>
                                       {ingredientName}
                                     </p>
-                                    <div className="flex gap-2">
+                                    <div className="flex flex-col sm:flex-row gap-2">
                                       <a
                                         href={generateMarketUrl('migros', ingredientName)}
                                         target="_blank"
